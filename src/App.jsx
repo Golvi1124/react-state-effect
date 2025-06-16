@@ -10,6 +10,9 @@ export default function App() {
 
   const [cars, setCars] = useState(initialCars);
 
+  // State to hold the new car details, This will be used to add a new car to the list.
+  const [newCar, setNewCar] = useState({});
+
   return (
     <div>
       {cars.map((car, i) =>{
@@ -21,6 +24,31 @@ export default function App() {
           </div>
         );
       })}
+
+      <input 
+        type="text" 
+        placeholder="Make..." 
+        // e = event data
+        // onChange is an event handler that updates the newCar state when the input value changes.
+        //...prev = spread operator to copy the previous state of newCar
+        onChange={e => setNewCar(prev => ({ ...prev, make: e.target.value }))}
+        />
+      <input 
+        type="text" 
+        placeholder="Model..." 
+        onChange={e => setNewCar(prev => ({ ...prev, model: e.target.value }))}
+        />
+      <input 
+        type="number" 
+        placeholder="Year..." 
+        onChange={e => setNewCar(prev => ({ ...prev, year: e.target.value }))}
+        />
+      <button onClick={() => setCars(prev => [...prev, newCar])}>Add Car</button>
+
+      {/* To make new thing is one the top: 
+      <button onClick={() => setCars(prev => [newCar,...prev])}>Add Car</button> */}
+      
+      <p>{newCar.make} {newCar.model} {newCar.year}</p>
     </div>
   );
 }
@@ -28,7 +56,7 @@ export default function App() {
 
 
 
-
+ 
 
 
 
