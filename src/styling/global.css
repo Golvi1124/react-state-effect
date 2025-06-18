@@ -1,5 +1,23 @@
-body {
-  background: black;
-    color: white;
+:root {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #03182b;
+  --secondary-color: #150346;
+  --border-color: #491919;
+  --hover-color: #1f641c;
+  --focus-color: #34b30d;
+}
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  padding: 1rem;
 }
