@@ -6,6 +6,66 @@
 // import React, { useEffect, useState } from "react";
 import { useEffect, useState } from "react";
 
+// Fetch data from an API. Best to use third party libraries like tanstack query (react query)
+
+export default function App() {
+  // -------------  robust "old way" of fetching data --------------------------
+  const [data, setData] = useState(null); // State to hold the fetched data
+  const [loading, setLoading] = useState(true); // State to track loading status
+  const [error, setError] = useState(null); // State to track any errors
+
+  // must use only [] to run only once after mounting
+  useEffect(() => {
+    // Function to fetch data from the API
+    const fetchData = async () => {
+      setLoading(true); // Set loading to true before fetching data
+      setError(null); // Reset error state before fetching
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/posts/1"
+        );
+
+        // Check if the response is ok (status in the range 200-299)
+        if (!response.ok) {
+          throw new Error(`HTTP error. Status: ${response.status}`);
+        }
+
+        // Parse the JSON response, If the response is not ok, throw an error
+        const result = await response.json();
+        setData(result); // Set the fetched data to state
+      } catch (error) {
+        setError(error.message); // Set error message if fetching fails
+      } finally {
+        setLoading(false); // Set loading to false after fetching is complete
+      }
+    };
+
+    fetchData(); // Call the fetch function
+  }, []);
+
+  return (
+    <div>
+      <h1>Data Fetching Example</h1>
+
+      {/*(in video from 44th minute) if loading, show loading message */}
+      {loading && <p>Loading...</p>}
+
+      {/* if error, show error message */}
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+
+      {/* if data is fetched, display it */}
+      {data && (
+        <div>
+          <h2>{data.title}</h2>
+          <p>{data.body}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/*
+............Eventlistener.
 export default function App() {
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -32,7 +92,7 @@ function handleResize() {
   );
 }
 
-/*
+
 WITHOUT DEPENDENCY ARRAY 
   useEffect(() => {
     // code here })
