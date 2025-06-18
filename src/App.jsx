@@ -7,19 +7,27 @@
 import { useEffect, useState } from "react";
 
 export default function App() {
-  const [count, setCount] = useState(0);
+  const [width, setWidth] = useState(window.innerWidth);
 
+function handleResize() {
+    setWidth(window.innerWidth);
+  }
 
   useEffect(() => {
-  document.title = `Count is ${count}`;
-    }, [count]);
+ window.addEventListener("resize", handleResize)
+
+ // Cleanup function to remove the event listener when the component unmounts
+  // or before the effect runs again.
+  // This prevents memory leaks and ensures that the event listener is not added multiple times.
+  return () => {
+      window.removeEventListener("resize", handleResize);
+  }
+    }, []);
 
 
   return (
     <div>
-      <h1>{count}</h1>
-      <button onClick={() => setCount(prev => prev +1)}>Increment</button>
-
+      <h1>{width}</h1>
     </div> 
   );
 }
